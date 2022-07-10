@@ -382,7 +382,8 @@ class ALTTPWorld(World):
                                reduceflashing=world.reduceflashing[player] or world.is_race,
                                triforcehud=world.triforcehud[player].current_key,
                                deathlink=world.death_link[player],
-                               allowcollect=world.allow_collect[player])
+                               allowcollect=world.allow_collect[player],
+                               sfxshuffle=world.sfx_shuffle[player])
 
             outfilepname = f'_P{player}'
             outfilepname += f"_{world.get_file_safe_player_name(player).replace(' ', '_')}" \

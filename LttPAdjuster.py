@@ -60,6 +60,7 @@ def main():
     parser.add_argument('--deathlink', help='Enable DeathLink system.', action='store_true')
     parser.add_argument('--allowcollect', help='Allow collection of other player items', action='store_true')
     parser.add_argument('--disablemusic', help='Disables game music.', action='store_true')
+    parser.add_argument('--sfxshuffle', help='Shuffle sound effects.', action='store_true')
     parser.add_argument('--triforcehud', default='hide_goal', const='hide_goal', nargs='?',
                         choices=['normal', 'hide_goal', 'hide_required', 'hide_both'],
                         help='''\
@@ -164,7 +165,7 @@ def adjust(args):
 
     apply_rom_settings(rom, args.heartbeep, args.heartcolor, args.quickswap, args.menuspeed, args.music,
                        args.sprite, palettes_options, reduceflashing=args.reduceflashing or racerom, world=world,
-                       deathlink=args.deathlink, allowcollect=args.allowcollect)
+                       deathlink=args.deathlink, allowcollect=args.allowcollect, sfxshuffle=args.sfxshuffle)
     path = output_path(f'{os.path.basename(args.rom)[:-4]}_adjusted.sfc')
     rom.write_to_file(path)
 
@@ -217,6 +218,7 @@ def adjustGUI():
         guiargs.shield_palettes = rom_vars.shieldPalettesVar.get()
         guiargs.quickswap = bool(rom_vars.quickSwapVar.get())
         guiargs.music = bool(rom_vars.MusicVar.get())
+        guiargs.sfxshuffle = bool(rom_vars.SfxShuffleVar.get())
         guiargs.reduceflashing = bool(rom_vars.disableFlashingVar.get())
         guiargs.deathlink = bool(rom_vars.DeathLinkVar.get())
         guiargs.allowcollect = bool(rom_vars.AllowCollectVar.get())
@@ -254,6 +256,7 @@ def adjustGUI():
         guiargs.shield_palettes = rom_vars.shieldPalettesVar.get()
         guiargs.quickswap = bool(rom_vars.quickSwapVar.get())
         guiargs.music = bool(rom_vars.MusicVar.get())
+        guiargs.sfxshuffle = bool(rom_vars.SfxShuffleVar.get())
         guiargs.reduceflashing = bool(rom_vars.disableFlashingVar.get())
         guiargs.deathlink = bool(rom_vars.DeathLinkVar.get())
         guiargs.allowcollect = bool(rom_vars.AllowCollectVar.get())
@@ -516,6 +519,7 @@ def get_rom_options_frame(parent=None):
     defaults = {
         "auto_apply": 'ask',
         "music": True,
+        "sfxshuffle": False,
         "reduceflashing": True,
         "deathlink": False,
         "sprite": None,
@@ -548,6 +552,11 @@ def get_rom_options_frame(parent=None):
     vars.MusicVar.set(adjuster_settings.music)
     MusicCheckbutton = Checkbutton(romOptionsFrame, text="Music", variable=vars.MusicVar)
     MusicCheckbutton.grid(row=0, column=0, sticky=E)
+
+    vars.SfxShuffleVar = IntVar()
+    vars.SfxShuffleVar.set(adjuster_settings.sfxshuffle)
+    SfxShuffleCheckbutton = Checkbutton(romOptionsFrame, text="Shuffle SFX", variable=vars.SfxShuffleVar)
+    SfxShuffleCheckbutton.grid(row=0, column=0, sticky=W)
 
     vars.disableFlashingVar = IntVar(value=adjuster_settings.reduceflashing)
     disableFlashingCheckbutton = Checkbutton(romOptionsFrame, text="Disable flashing (anti-epilepsy)",

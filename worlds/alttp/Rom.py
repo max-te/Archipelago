@@ -38,6 +38,7 @@ from Utils import local_path, user_path, int16_as_bytes, int32_as_bytes, snes_to
 from worlds.alttp.Items import ItemFactory, item_table, item_name_groups, progression_items
 from worlds.alttp.EntranceShuffle import door_addresses
 from worlds.alttp.Options import smallkey_shuffle
+from worlds.alttp.Sfx import sfx_shuffle
 import Patch
 
 try:
@@ -1765,7 +1766,8 @@ def hud_format_text(text):
 
 def apply_rom_settings(rom, beep, color, quickswap, menuspeed, music: bool, sprite: str, palettes_options,
                        world=None, player=1, allow_random_on_event=False, reduceflashing=False,
-                       triforcehud: str = None, deathlink: bool = False, allowcollect: bool = False):
+                       triforcehud: str = None, deathlink: bool = False, allowcollect: bool = False,
+                       sfxshuffle: bool = False):
     local_random = random if not world else world.slot_seeds[player]
     disable_music: bool = not music
     # enable instant item menu
@@ -1905,6 +1907,10 @@ def apply_rom_settings(rom, beep, color, quickswap, menuspeed, music: bool, spri
 
     apply_random_sprite_on_event(rom, sprite, local_random, allow_random_on_event,
                                  world.sprite_pool[player] if world else [])
+
+    if sfxshuffle:
+        sfx_shuffle(rom, local_random)
+
     if isinstance(rom, LocalRom):
         rom.write_crc()
 

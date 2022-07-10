@@ -289,6 +289,8 @@ class MenuSpeed(Choice):
 class Music(DefaultOnToggle):
     display_name = "Play music"
 
+class SfxShuffle(Toggle):
+    display_name = "Shuffle sound effects"
 
 class ReduceFlashing(DefaultOnToggle):
     display_name = "Reduce Screen Flashes"
@@ -360,6 +362,7 @@ alttp_options: typing.Dict[str, type(Option)] = {
     "quickswap": QuickSwap,
     "menuspeed": MenuSpeed,
     "music": Music,
+    "sfx_shuffle": SfxShuffle,
     "reduceflashing": ReduceFlashing,
     "triforcehud": TriforceHud,
     "glitch_boots": DefaultOnToggle,
